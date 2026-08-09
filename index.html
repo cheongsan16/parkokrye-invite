@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>할머니 팔순 잔치 초대장</title>
+
+    <!-- Google Fonts: 나눔명조 (Nanum Myeongjo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'myeongjo': ['"Nanum Myeongjo"', 'serif'],
+                    },
+                    colors: {
+                        pastel: {
+                            pink: '#FAD4D4',
+                            green: '#D4EAC8',
+                            yellow: '#FEF3BD',
+                            bg: '#FFFDF9'
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1s ease-out forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 추가적인 커스텀 스타일 */
+        body {
+            background-color: #f3f4f6;
+            /* 바탕 배경 (데스크탑에서 볼 때) */
+            display: flex;
+            justify-content: center;
+        }
+
+        .mobile-container {
+            width: 100%;
+            max-width: 420px;
+            /* 모바일 최대 너비 제한 */
+            min-height: 100vh;
+            background-color: #FFFDF9;
+            background-image:
+                radial-gradient(circle at 15% 10%, rgba(250, 212, 212, 0.4) 0%, transparent 40%),
+                radial-gradient(circle at 85% 90%, rgba(212, 234, 200, 0.4) 0%, transparent 40%);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .section-hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .section-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 토스트 메시지 */
+        #toast {
+            visibility: hidden;
+            min-width: 200px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 12px;
+            position: fixed;
+            z-index: 50;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body class="font-myeongjo text-gray-800 antialiased selection:bg-pastel-pink selection:text-white">
+
+    <div class="mobile-container relative pb-20">
+
+        <!-- 백합 & 여름 꽃 장식 (상단 SVG) -->
+        <div class="absolute top-0 right-0 w-48 h-48 pointer-events-none opacity-80 animate-float">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- 잎사귀 -->
+                <path d="M 120 40 Q 160 20 180 60 Q 140 80 120 40" fill="#D4EAC8" />
+                <path d="M 130 90 Q 180 90 170 130 Q 120 120 130 90" fill="#D4EAC8" />
+                <!-- 백합 꽃잎 -->
+                <path d="M 140 60 Q 170 10 190 40 Q 160 80 140 60" fill="#ffffff" stroke="#FAD4D4" stroke-width="2" />
+                <path d="M 140 60 Q 120 10 90 30 Q 120 70 140 60" fill="#ffffff" stroke="#FAD4D4" stroke-width="2" />
+                <path d="M 140 60 Q 100 80 110 110 Q 150 90 140 60" fill="#ffffff" stroke="#FAD4D4" stroke-width="2" />
+                <path d="M 140 60 Q 180 80 170 110 Q 140 90 140 60" fill="#ffffff" stroke="#FAD4D4" stroke-width="2" />
+                <!-- 수술 -->
+                <line x1="140" y1="60" x2="145" y2="40" stroke="#E5A9A9" stroke-width="1.5" />
+                <line x1="140" y1="60" x2="125" y2="45" stroke="#E5A9A9" stroke-width="1.5" />
+                <line x1="140" y1="60" x2="160" y2="50" stroke="#E5A9A9" stroke-width="1.5" />
+                <circle cx="145" cy="40" r="2" fill="#FEF3BD" />
+                <circle cx="125" cy="45" r="2" fill="#FEF3BD" />
+                <circle cx="160" cy="50" r="2" fill="#FEF3BD" />
+            </svg>
+        </div>
+
+        <!-- 하단 꽃 장식 (좌측 하단) -->
+        <div class="absolute bottom-10 left-0 w-40 h-40 pointer-events-none opacity-60">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" transform="scale(-1, 1)">
+                <!-- 잎사귀 -->
+                <path d="M 120 40 Q 160 20 180 60 Q 140 80 120 40" fill="#D4EAC8" />
+                <!-- 꽃잎 -->
+                <path d="M 140 60 Q 170 10 190 40 Q 160 80 140 60" fill="#ffffff" stroke="#FAD4D4" stroke-width="2" />
+                <path d="M 140 60 Q 120 10 90 30 Q 120 70 140 60" fill="#ffffff" stroke="#FAD4D4" stroke-width="2" />
+                <circle cx="140" cy="60" r="5" fill="#FEF3BD" />
+            </svg>
+        </div>
+
+        <!-- 1. 메인 타이틀 & 사진 -->
+        <div class="pt-24 pb-12 px-6 text-center animate-fade-in-up">
+            <h2 class="text-sm tracking-[0.3em] text-gray-500 mb-4">팔순연(傘壽宴) 초대</h2>
+            <h1 class="text-3xl font-bold text-gray-800 mb-8 leading-snug">
+                박옥례 여사님의<br />여든 번째 생신
+            </h1>
+
+            <!-- 사진 원형 프레임 -->
+            <div
+                class="w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-white shadow-xl relative z-10 bg-pastel-pink/20 flex items-center justify-center">
+                <img src="https://images.unsplash.com/photo-1719037108848-685e9e599827?q=80&w=1762&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt="할머니 사진" class="w-full h-full object-cover">
+            </div>
+
+            <p class="mt-8 text-lg text-gray-700 tracking-wider">
+                2026. 08. 29. 토요일 낮 12시<br />
+                가모스 웨딩홀
+            </p>
+        </div>
+
+        <!-- 2. 초대 문구 -->
+        <div class="px-8 py-10 text-center observe-section section-hidden relative z-10">
+            <div class="w-8 h-[1px] bg-gray-300 mx-auto mb-8"></div>
+            <p class="leading-loose text-[15px] text-gray-700">
+                어머니의 여든 번째 생신을 맞이하여<br />
+                감사와 존경의 마음을 담아<br />
+                작은 자리를 마련했습니다.<br />
+                <br />
+                여름날의 싱그러운 백합처럼<br />
+                늘 환하게 우리를 품어주신 어머니,<br />
+                <br />
+                바쁘시더라도 참석해 주시어<br />
+                기쁨과 축하를 함께 나누어 주시면<br />
+                큰 영광이겠습니다.
+            </p>
+            <div class="w-8 h-[1px] bg-gray-300 mx-auto mt-8"></div>
+        </div>
+
+        <!-- 3. 가족 명단 (호스트) -->
+        <div
+            class="px-6 py-8 bg-white/50 my-6 mx-4 rounded-2xl shadow-sm border border-pastel-pink/30 observe-section section-hidden relative z-10">
+            <h3 class="text-center text-lg text-gray-800 font-bold mb-6">가족 드림</h3>
+
+            <div class="flex flex-col items-center gap-4 text-[15px] text-gray-700">
+                <!-- 배우자 -->
+                <div class="flex items-center gap-4 w-full justify-center">
+                    <span class="text-gray-500 w-12 text-right text-sm">부군</span>
+                    <span class="w-px h-3 bg-gray-300"></span>
+                    <span class="w-16 font-bold text-gray-800">신성현</span>
+                </div>
+
+                <div class="w-1/2 h-[1px] bg-gray-200 my-2"></div>
+
+                <!-- 자식 부부 1 -->
+                <div class="flex items-center gap-4 w-full justify-center">
+                    <span class="text-gray-500 w-12 text-right text-sm">장녀</span>
+                    <span class="w-px h-3 bg-gray-300"></span>
+                    <span class="w-16 font-bold text-gray-800">신미경</span>
+                    <span class="text-gray-500 text-sm">사위</span>
+                    <span class="w-16 font-bold text-gray-800">김옥균</span>
+                </div>
+
+                <!-- 자식 부부 2 -->
+                <div class="flex items-center gap-4 w-full justify-center">
+                    <span class="text-gray-500 w-12 text-right text-sm">장남</span>
+                    <span class="w-px h-3 bg-gray-300"></span>
+                    <span class="w-16 font-bold text-gray-800">신동철</span>
+                    <span class="text-gray-500 text-sm">자부</span>
+                    <span class="w-16 font-bold text-gray-800">한강나</span>
+                </div>
+
+                <!-- 자식 부부 3 -->
+                <div class="flex items-center gap-4 w-full justify-center">
+                    <span class="text-gray-500 w-12 text-right text-sm">차남</span>
+                    <span class="w-px h-3 bg-gray-300"></span>
+                    <span class="w-16 font-bold text-gray-800">신인철</span>
+                    <span class="text-gray-500 text-sm">자부</span>
+                    <span class="w-16 font-bold text-gray-800">지호숙</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. 오시는 길 (장소/약도) -->
+        <div class="px-8 py-10 observe-section section-hidden relative z-10">
+            <h3 class="text-center text-xl text-gray-800 font-bold mb-8">오시는 길</h3>
+
+            <div class="mb-6 text-center">
+                <p class="font-bold text-lg mb-1">가모스 웨딩</p>
+                <p class="text-sm text-gray-600 mb-2">경기도 이천시 부발읍 무촌로 80-2</p>
+                <p class="text-sm text-gray-500">TEL: 031-631-6600</p>
+            </div>
+
+            <!-- 약도 (지도 이미지 또는 플레이스홀더) -->
+            <div class="w-full h-48 bg-gray-200 rounded-lg mb-4 overflow-hidden relative shadow-inner">
+                <!-- 실제 지도 API(카카오맵 등) 연동 전 심플한 약도 디자인 플레이스홀더 -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center bg-[#ffffff]">
+                    <img src="img/gamos_map.png" alt="가모스 웨딩홀 약도">
+                </div>
+            </div>
+
+            <!-- 주소 복사 버튼 -->
+            <button onclick="copyAddress()"
+                class="w-full py-3 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm font-bold shadow-sm hover:bg-gray-50 transition flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                    </path>
+                </svg>
+                주소 복사하기
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center py-8 text-xs text-gray-400">
+            <p>축하해 주시는 모든 분들께 감사드립니다.</p>
+        </div>
+
+    </div>
+
+    <!-- 주소 복사 토스트 메시지 -->
+    <div id="toast">주소가 복사되었습니다.</div>
+
+    <script>
+        // 스크롤 시 페이드인 효과 (Intersection Observer)
+        document.addEventListener("DOMContentLoaded", function () {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('section-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const sections = document.querySelectorAll('.observe-section');
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+        // 주소 복사 기능
+        function copyAddress() {
+            const address = "경기도 이천시 부발읍 무촌로 80-2"; // 실제 주소로 변경
+
+            // Clipboard API (최신 브라우저)
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(address).then(() => {
+                    showToast();
+                }).catch(err => {
+                    fallbackCopyTextToClipboard(address);
+                });
+            } else {
+                // iFrame 등 보안 컨텍스트가 아닌 경우 Fallback
+                fallbackCopyTextToClipboard(address);
+            }
+        }
+
+        // 구형 브라우저 또는 iFrame을 위한 주소 복사 Fallback
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) showToast();
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // 토스트 메시지 표시
+        function showToast() {
+            const toast = document.getElementById("toast");
+            toast.className = "show";
+            setTimeout(function () {
+                toast.className = toast.className.replace("show", "");
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>
